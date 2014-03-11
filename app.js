@@ -4,10 +4,10 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
-var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
+var frontControl = require("./controls/frontControl.js");
+var countriesModel = require("./models/countriesModel.js");
 
 var app = express();
 
@@ -28,8 +28,12 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+//---------ROUTES-----------
+app.get('/', frontControl.index);
+
+app.get("/countries", function (req, res){
+  res.send(countriesModel);
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
